@@ -1,10 +1,21 @@
 import axios from 'axios';
+import { Hotel } from 'src/utils/hotel.type';
 import changeDateFormatToIsoSTring from './dateToISOString';
 
 const today = changeDateFormatToIsoSTring();
 
-const getDestinationIdsByQuery = async (query: string) => {
-  var options = {
+interface Option {
+  method: string;
+  url: string;
+  params: { query: string; currency: string; locale: string };
+  headers: {
+    'X-RapidAPI-Host': string;
+    'X-RapidAPI-Key': string;
+  };
+}
+
+const getDestinationIdsByQuery = async (query: string): Promise<string> => {
+  const options = {
     method: 'GET',
     url: 'https://hotels-com-provider.p.rapidapi.com/v1/destinations/search',
     params: { query: query, currency: 'USD', locale: 'ko_KR' },
@@ -22,7 +33,7 @@ const getDestinationIdsByQuery = async (query: string) => {
     });
 };
 
-const getSearchHotelsByQuery = async ({ destinationId, checkIn, checkOut, person }): Promise<[]> => {
+const getSearchHotelsByQuery = async ({ destinationId, checkIn, checkOut, person }): Promise<Hotel[]> => {
   const options = {
     Method: 'GET',
     url: 'https://hotels-com-provider.p.rapidapi.com/v1/hotels/search',
@@ -65,7 +76,7 @@ const getSearchHotelsByQuery = async ({ destinationId, checkIn, checkOut, person
     });
 };
 
-const getAllHotelList = async (): Promise<[]> => {
+const getAllHotelList = async (): Promise<Hotel[]> => {
   const options = {
     Method: 'GET',
     url: 'https://hotels4.p.rapidapi.com/properties/list',
@@ -105,7 +116,7 @@ const getAllHotelList = async (): Promise<[]> => {
     });
 };
 
-const getNearHotelList = ({ latitude, longitude }) => {
+const getNearHotelList = ({ latitude, longitude }): Promise<Hotel[]> => {
   const options = {
     Method: 'GET',
     url: 'https://hotels-com-provider.p.rapidapi.com/v1/hotels/nearby',
@@ -148,7 +159,7 @@ const getNearHotelList = ({ latitude, longitude }) => {
     });
 };
 
-const getLocalHotelList = async (destinationId: number): Promise<[]> => {
+const getLocalHotelList = async (destinationId: number): Promise<Hotel[]> => {
   const options = {
     Method: 'GET',
     url: 'https://hotels4.p.rapidapi.com/properties/list',

@@ -1,14 +1,15 @@
-import CarouselUl from './CarouselUl/CarouselUl';
 import { StyledDiv, StyledDivInner } from './Carousel.style';
+import CarouselLi from './CarouselLi/CarouselLi';
+import { CarouselProps } from './Carousel.type';
 
-const NoMoveCarousel = ({ resHotels }) => {
+const NoMoveCarousel = ({ resHotels }: CarouselProps) => {
   return (
     <div>
       <StyledDiv>
-        <StyledDivInner>
+        <ul>
           {resHotels.length !== 0 &&
-            resHotels.map((hotelArr, index) => <CarouselUl key={hotelArr.length * index} hotelArr={hotelArr} />)}
-        </StyledDivInner>
+            resHotels.map((hotel, index) => <CarouselLi key={resHotels.length * index} hotel={hotel} />)}
+        </ul>
       </StyledDiv>
     </div>
   );

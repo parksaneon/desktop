@@ -1,6 +1,7 @@
+import { CarouselUlProps } from '../Carousel.type';
 import CarouselLi from '../CarouselLi/CarouselLi';
 
-const CarouselUl = ({ hotelArr }) => {
+const CarouselUl = ({ hotelArr }: CarouselUlProps) => {
   return (
     <ul>
       {hotelArr.map(hotel => (

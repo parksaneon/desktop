@@ -3,20 +3,21 @@ import { useEffect, useState, useRef, useLayoutEffect, useCallback } from 'react
 import { StyledDivInner, StyledDiv } from './Carousel.style';
 import CarouselUl from './CarouselUl/CarouselUl';
 import Button from './Button/Button';
+import { Hotel } from 'src/utils/hotel.type';
 
 const MoveCarousel = ({ resHotels }) => {
   const [slide, setSlide] = useState<number>(-1);
   const [limit, setLimit] = useState<number>(0);
-  const [hotels, setHotels] = useState<object[][]>([]);
+  const [hotels, setHotels] = useState<Hotel[][]>([[]]); // [Hotel[]]
   const [isMoving, setIsMoving] = useState<boolean>(false);
   const refDiv = useRef<HTMLDivElement>(null);
 
   const listNum: number = 5;
 
-  const makeArray = useCallback(arr => {
+  const makeArray = useCallback((hotelList: Hotel[]) => {
     let index: number = 0;
 
-    return arr.reduce((acc, cur) => {
+    return hotelList.reduce((acc, cur) => {
       if (acc[index] === undefined) {
         acc[index] = [];
       }
@@ -56,12 +57,12 @@ const MoveCarousel = ({ resHotels }) => {
     }, 500);
   }, [slide]);
 
-  const movePrev = (): void => {
+  const movePrev = () => {
     if (isMoving) return;
     setSlide(slide + 1);
   };
 
-  const moveNext = (): void => {
+  const moveNext = () => {
     if (isMoving) return;
     setSlide(slide - 1);
   };

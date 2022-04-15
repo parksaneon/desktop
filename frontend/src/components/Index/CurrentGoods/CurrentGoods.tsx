@@ -6,13 +6,15 @@ import { StyledH3, StyledDiv } from './CurrentGoods.style';
 import MoveCarousel from 'components/Carousels/MoveCarousel';
 import NoMoveCarousel from 'components/Carousels/NoMoveCarousel';
 import Spinner from 'components/Spinner/Spinner';
+import { Hotel } from 'src/utils/hotel.type';
 
 const CurrentGoods = () => {
   const [agreeInfo, setAgreeInfo] = useState<boolean>(false);
   const { data } = useSWR('/api/around', fetcher, { revalidateIfStale: false });
+  console.log(data);
 
-  function fetcher(): Promise<[]> {
-    return new Promise((resolve, reject) => {
+  function fetcher(): Promise<Hotel[]> {
+    return new Promise(resolve => {
       const success = ({ coords }) => {
         setAgreeInfo(true);
         resolve(getNearHotelList(coords));
