@@ -35,7 +35,7 @@ export const auth = createSlice({
   },
 });
 
-// interface RootState {
+// export interface RootState {
 //   auth: AuthType;
 // }
 
