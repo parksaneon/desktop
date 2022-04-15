@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { RootState } from './rootReducer';
+import { RootState } from './store';
 
 export interface AuthType {
   id: string | null;

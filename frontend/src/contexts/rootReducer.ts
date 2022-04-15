@@ -13,5 +13,10 @@ const persistConfig = {
   whitelist: ['auth'],
 };
 
+<<<<<<< HEAD
+export type Reducer = ReturnType<typeof reducer>;
+export type RootState = ReturnType<typeof reducer>;
+=======
+>>>>>>> f299495b386a34a4a9b1f920a47e0e7346098c3a
 export default persistReducer(persistConfig, reducer);
 export type RootState = ReturnType<typeof reducer>;
