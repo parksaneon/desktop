@@ -23,7 +23,7 @@ const Reservation = lazy(() => import('src/pages/Reservation/Reservation'));
 const MyPage = lazy(() => import('src/pages/MyPage/MyPage'));
 
 const App = () => {
-  const { id, nickname, email } = useAppSelector(selectAuth);
+  const { id, nickname, email } = useAppSelector(state => state.auth);
 
   const MemoizedHeader = useMemo(() => {
     return (

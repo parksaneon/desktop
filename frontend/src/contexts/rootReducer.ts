@@ -14,4 +14,5 @@ const persistConfig = {
 };
 
 export type Reducer = ReturnType<typeof reducer>;
+export type RootState = ReturnType<typeof reducer>;
 export default persistReducer(persistConfig, reducer);
