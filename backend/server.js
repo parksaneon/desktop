@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const database = require('./firebase.js');
 
 let users = require('./data/users.json');
 let reservations = require('./data/reservations.json');
@@ -53,23 +54,15 @@ app.get('/reservations/:searchId', (req, res) => {
       userId === searchId && checkInDate >= from && checkOutDate <= to
   );
 
-  const reservationWithHotelInfo = reservationFilterByDate.map(
-    (reservation) => {
-      const { name, photo } = hotels.find(
-        (hotel) => hotel.id === reservation.hotelId
-      );
-      return { ...reservation, name, photo };
-    }
-  );
+  const reservationWithHotelInfo = reservationFilterByDate.map((reservation) => {
+    const { name, photo } = hotels.find((hotel) => hotel.id === reservation.hotelId);
+    return { ...reservation, name, photo };
+  });
 
-  const selectedReservationWithReview = reservationWithHotelInfo.map(
-    (reservation) => {
-      const review = reviews.find(
-        (review) => review.reservationId === reservation.id
-      );
-      return { ...reservation, review: review ? review : null };
-    }
-  );
+  const selectedReservationWithReview = reservationWithHotelInfo.map((reservation) => {
+    const review = reviews.find((review) => review.reservationId === reservation.id);
+    return { ...reservation, review: review ? review : null };
+  });
 
   res.send(selectedReservationWithReview);
 });
@@ -128,10 +121,8 @@ app.get('/reserved/:hotelId', (req, res) => {
   reservations.forEach((reservation) => {
     if (
       reservation.hotelAPIId === +hotelId &&
-      +reservation.checkInDate.split('-').join('') >=
-        +checkIn.split('-').join('') &&
-      +reservation.checkOutDate.split('-').join('') <=
-        +checkOut.split('-').join('')
+      +reservation.checkInDate.split('-').join('') >= +checkIn.split('-').join('') &&
+      +reservation.checkOutDate.split('-').join('') <= +checkOut.split('-').join('')
     )
       reservedRoom.push(reservation.spec);
   });
@@ -189,9 +180,7 @@ app.delete('/review/:id', (req, res) => {
 app.patch('/review/user', (req, res) => {
   users.map((user) => {
     if (user.nickname === req.body.nickname) {
-      user.myReviews = user.myReviews.filter(
-        (review) => review !== +req.body.id
-      );
+      user.myReviews = user.myReviews.filter((review) => review !== +req.body.id);
       return user;
     }
   });
